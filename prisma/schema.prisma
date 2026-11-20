@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+
+  swipes Swipe[]
+
+  @@index([createdAt])
+}
+
+model Profile {
+  id        String   @id @default(cuid())
+  name      String
+  age       Int
+  photo     String
+  bio       String
+  city      String
+  college   String
+  interests String[]
+  createdAt DateTime @default(now())
+
+  swipes      Swipe[]
+  profileLike ProfileLike?
+
+  @@index([createdAt])
+}
+
+model Swipe {
+  id        String      @id @default(cuid())
+  userId    String
+  profileId String
+  action    SwipeAction
+  createdAt DateTime    @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, profileId])
+  @@index([userId, action])
+  @@index([profileId, action])
+  @@index([createdAt])
+}
+
+model ProfileLike {
+  id           String  @id @default(cuid())
+  profileId    String  @unique
+  hasLikedUser Boolean @default(false)
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([hasLikedUser])
+}
+
+enum SwipeAction {
+  LIKE
+  PASS
+}
