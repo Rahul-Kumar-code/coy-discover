@@ -12,6 +12,10 @@
 
 # testing
 /coverage
+/test-results
+/playwright-report
+.vitest
+*.lcov
 
 # next.js
 /.next/
@@ -19,10 +23,29 @@
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
 *.pem
+Thumbs.db
+*.swp
+*.swo
+.cache
+.eslintcache
+
+# editor and local tooling
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+
+# local runtime and logs
+*.log
+logs
+*.pid
+*.seed
+*.pid.lock
 
 # debug
 npm-debug.log*
